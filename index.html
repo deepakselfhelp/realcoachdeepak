@@ -214,37 +214,42 @@
 </section>
 
   <!-- ================ FAQ SECTION ================ -->
-  <section class="faq">
-    <div class="container">
-      <h2 class="section-title">Frequently Asked Questions</h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-question">What results can I expect?</button>
-          <div class="faq-answer">
-            <p>Results vary depending on your consistency. Most students notice improved confidence and clearer communication within the first few weeks.</p>
-          </div>
+<section class="faq">
+  <div class="container faq-container">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">What results can I expect?</button>
+        <div class="faq-answer">
+          <p>Results vary depending on your consistency. Most students notice improved confidence and clearer communication within the first few weeks.</p>
         </div>
-        <div class="faq-item">
-          <button class="faq-question">Do I need experience or social skills?</button>
-          <div class="faq-answer">
-            <p>No prior experience is required. The course builds from the ground up – suitable for beginners and advanced students alike.</p>
-          </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">Do I need experience or social skills?</button>
+        <div class="faq-answer">
+          <p>No prior experience is required. The course builds from the ground up – suitable for beginners and advanced students alike.</p>
         </div>
-        <div class="faq-item">
-          <button class="faq-question">Is there a refund policy?</button>
-          <div class="faq-answer">
-            <p>Yes — each program comes with clear refund terms. Please read our policy page before purchase to understand the conditions.</p>
-          </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">Is there a refund policy?</button>
+        <div class="faq-answer">
+          <p>Yes — each program comes with clear refund terms. Please read our policy page before purchase to understand the conditions.</p>
         </div>
-        <div class="faq-item">
-          <button class="faq-question">How do I access the community?</button>
-          <div class="faq-answer">
-            <p>After joining, you’ll receive an email invite with your personal access link to the RealCoachDeepak community platform.</p>
-          </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">How do I access the community?</button>
+        <div class="faq-answer">
+          <p>After joining, you’ll receive an email invite with your personal access link to the RealCoachDeepak community platform.</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- ================ FOOTER ================ -->
   <footer>
@@ -269,8 +274,18 @@
 
   <!-- ================ JS ================ -->
   <script src="assets/js/script.js"></script>
+  <script>
+document.querySelectorAll('.faq-question').forEach(button => {
+  button.addEventListener('click', () => {
+    const faqItem = button.parentElement;
+    faqItem.classList.toggle('active');
+  });
+});
+</script>
+
 </body>
 </html>
+
 
 
 
