@@ -1,41 +1,47 @@
-// ✅ Final Razorpay Webhook (shows Email + Phone in all Telegram messages)
-
+// ✅ /api/razorpay/webhook.js — Node 22 Compatible Version
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
   try {
-    const body = req.body;
+    // Node 22 sometimes sends raw string body → ensure it's parsed
+    const body =
+      typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
+
     const event = body.event;
     const payment = body.payload?.payment?.entity;
     const subscription = body.payload?.subscription?.entity;
 
     console.log(`📬 Received Razorpay Event: ${event}`);
 
-    // Escape MarkdownV2 special characters
+    // Escape MarkdownV2 special characters for Telegram
     function escapeMarkdownV2(text) {
-      return text.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+      return text.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, "\\$1");
     }
 
-    // Send Telegram message
+    // Send Telegram message (uses Node 22 global fetch)
     async function sendTelegramMessage(text) {
       const botToken = process.env.TELEGRAM_BOT_TOKEN;
       const chatId = process.env.TELEGRAM_CHAT_ID;
       if (!botToken || !chatId) return;
 
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text,
-          parse_mode: "MarkdownV2",
-        }),
-      });
+      try {
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text,
+            parse_mode: "MarkdownV2",
+          }),
+        });
+      } catch (err) {
+        console.error("⚠️ Telegram send failed:", err);
+      }
     }
 
-    // Helper to extract email and phone (works for all events)
+    // Helpers to extract contact details safely
     function extractEmail(obj) {
       return (
         obj?.email ||
@@ -136,15 +142,20 @@ export default async function handler(req, res) {
         subscription.plan_id ||
         "Razorpay Plan";
       const subId = subscription.id;
-      const reason = subscription.cancel_reason || "Cancelled manually or after failed rebills";
+      const reason =
+        subscription.cancel_reason ||
+        "Cancelled manually or after failed rebills";
       const failedRebill =
-        reason.includes("multiple failed rebill") || reason.includes("failed payment");
+        reason.includes("multiple failed rebill") ||
+        reason.includes("failed payment");
       const email = extractEmail(subscription);
       const phone = extractPhone(subscription);
 
       const message = escapeMarkdownV2(`
 🏦 *Source:* Razorpay
-${failedRebill ? "🚨 *Subscription Failed After Multiple Rebill Attempts!*" : "🚫 *Subscription Cancelled*"}
+${failedRebill
+  ? "🚨 *Subscription Failed After Multiple Rebill Attempts!*"
+  : "🚫 *Subscription Cancelled*"}
 📦 *Product:* ${planName}
 📧 *Email:* ${email}
 📱 *Phone:* ${phone}
@@ -161,4 +172,3 @@ ${failedRebill ? "🚨 *Subscription Failed After Multiple Rebill Attempts!*" : 
     res.status(500).json({ status: "error", error: err.message });
   }
 }
-
