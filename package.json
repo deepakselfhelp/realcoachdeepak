@@ -1,0 +1,18 @@
+{
+  "name": "realcoachdeepak",
+  "version": "1.0.0",
+  "description": "RealCoachDeepak checkout system with Mollie and Razorpay integrations (serverless-ready for Vercel)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev",
+    "build": "echo 'Static build not required for HTML + API setup'"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "license": "MIT"
+}
