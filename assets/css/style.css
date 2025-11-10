@@ -231,46 +231,47 @@ a:hover {
 }
 
 /* ------------------------------
-   ABOUT SECTION (Light Theme, Enlarged Text)
+   ABOUT SECTION – FIXED ALIGNMENT
 --------------------------------*/
 .about {
-  background: #f8f8f8; /* clean light tone */
+  background: #f8f8f8;
   padding: 110px 10%;
   color: #222;
 }
 
 .about-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;     /* align top of image + text */
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;           /* prevent stacking */
   max-width: 1300px;
   margin: 0 auto;
   gap: 70px;
 }
 
 .about-img {
-  flex: 1 1 45%;
+  flex: 0 0 45%;               /* image column stays fixed width */
 }
 
 .about-img img {
   width: 100%;
   max-width: 550px;
-  border-radius: 8px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   object-fit: cover;
+  display: block;
 }
 
 .about-text {
-  flex: 1 1 50%;
-  font-size: 1.45rem;        /* increased ~40% */
-  line-height: 1.8;          /* more breathing room */
+  flex: 1;                     /* text fills remaining space */
+  font-size: 1.45rem;
+  line-height: 1.8;
   color: #222;
 }
 
 .about-text h2 {
-  font-size: 3rem;           /* bigger title */
-  color: #1a4d8f;            /* soft professional blue */
+  font-size: 3rem;
+  color: #1a4d8f;
   margin-bottom: 25px;
   letter-spacing: 0.5px;
 }
@@ -279,22 +280,25 @@ a:hover {
   margin-bottom: 25px;
   color: #222;
 }
+
 @media (max-width: 900px) {
   .about-container {
     flex-direction: column;
     text-align: center;
+    gap: 40px;
   }
 
-  .about-img, .about-text {
+  .about-img {
     flex: 1 1 100%;
   }
 
   .about-img img {
     max-width: 380px;
+    margin: 0 auto;
   }
 
   .about-text {
-    font-size: 1.15rem;     /* still readable on phones */
+    font-size: 1.15rem;
     line-height: 1.75;
   }
 
@@ -545,6 +549,7 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
 
 
