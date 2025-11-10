@@ -603,44 +603,116 @@ a:hover {
   margin-top: 15px;
   color: var(--gold);
 }
-
 /* ------------------------------
-   PROGRAMS / PRICING
+   TESTIMONIALS 2 (Programs Conversion)
 --------------------------------*/
-.programs {
-  background: var(--secondary);
+.testimonial2 {
+  background: #f8f8f8; /* Light theme background */
   text-align: center;
+  color: #222;
+  padding: 100px 10%;
 }
 
-.pricing-grid {
+.testimonial2 .section-title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #1a4d8f; /* Blue heading */
+  margin-bottom: 60px;
+  letter-spacing: 0.5px;
+}
+
+.testimonial2-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  margin-top: 40px;
+  gap: 30px;
+  margin-top: 30px;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.price-card {
-  background: #1a1a1a;
+.testimonial2-card {
+  background: #fff;
   border-radius: 14px;
   padding: 40px 25px;
-  border: 1px solid #222;
-  transition: transform 0.3s;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.price-card:hover {
-  transform: translateY(-5px);
+.testimonial2-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
-.price-card h3 {
-  color: var(--gold);
+.testimonial2-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial2-card h3 {
+  color: #000;
   margin-bottom: 10px;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
-.price-card .price {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-bottom: 10px;
+.testimonial2-card .quote {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.65;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.testimonial2-card span {
   color: var(--gold);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ------------------------------
+   RESPONSIVE (TABLET + MOBILE)
+--------------------------------*/
+@media (max-width: 900px) {
+  .testimonial2 {
+    padding: 80px 8%;
+  }
+
+  .testimonial2 .section-title {
+    font-size: 2.2rem;
+  }
+
+  .testimonial2-card {
+    padding: 35px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonial2 {
+    padding: 60px 6%;
+  }
+
+  .testimonial2 .section-title {
+    font-size: 1.9rem;
+  }
+
+  .testimonial2-card {
+    padding: 30px 18px;
+  }
+
+  .testimonial2-card img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .testimonial2-card .quote {
+    font-size: 1rem;
+  }
 }
 
 /* ------------------------------
@@ -749,6 +821,7 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
 
 
