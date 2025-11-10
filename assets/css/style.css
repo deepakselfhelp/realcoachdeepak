@@ -171,8 +171,10 @@ a:hover {
 
 .hero-text p {
   color: var(--gray);
-  font-size: 1.15rem;
-  margin-bottom: 35px;
+  font-size: 1.45rem;      /* same as About section */
+  line-height: 1.8;        /* matches flow and readability */
+  margin-bottom: 40px;     /* more space before button */
+  max-width: 90%;
 }
 
 .hero-text .btn.gold {
@@ -549,6 +551,7 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
 
 
