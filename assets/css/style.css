@@ -716,39 +716,116 @@ a:hover {
 }
 
 /* ------------------------------
-   FAQ SECTION
+   FAQ SECTION (Updated Premium Layout)
 --------------------------------*/
 .faq {
-  background: var(--bg);
+  background: #f8f8f8;
+  padding: 100px 10%;
+  color: #222;
 }
 
-.faq-list {
-  max-width: 800px;
+.faq-container {
+  max-width: 900px;
   margin: 0 auto;
 }
 
+.faq .section-title {
+  text-align: center;
+  color: #1a4d8f;
+  font-size: 2.8rem;
+  margin-bottom: 60px;
+  letter-spacing: 0.5px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
 .faq-item {
-  border-bottom: 1px solid #222;
-  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
 }
 
 .faq-question {
   width: 100%;
   background: none;
   border: none;
-  color: var(--text);
+  color: #000;
   text-align: left;
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 10px 0;
+  font-size: 1.4rem;
   font-weight: 600;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.faq-question:hover {
+  color: var(--gold);
 }
 
 .faq-answer {
   display: none;
-  color: var(--gray);
-  margin-top: 10px;
-  line-height: 1.5;
+  padding: 10px 0 5px;
+  color: #333;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  animation: fadeIn 0.3s ease;
+}
+
+.faq-answer p {
+  margin: 0;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+/* Fade animation for opening */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------
+   RESPONSIVE DESIGN
+--------------------------------*/
+@media (max-width: 900px) {
+  .faq {
+    padding: 80px 8%;
+  }
+
+  .faq .section-title {
+    font-size: 2.2rem;
+  }
+
+  .faq-question {
+    font-size: 1.25rem;
+  }
+
+  .faq-answer {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .faq {
+    padding: 60px 6%;
+  }
+
+  .faq .section-title {
+    font-size: 1.9rem;
+  }
+
+  .faq-question {
+    font-size: 1.15rem;
+  }
+
+  .faq-answer {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
 }
 
 /* ------------------------------
@@ -821,6 +898,7 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
 
 
