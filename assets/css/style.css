@@ -50,57 +50,40 @@ a:hover {
   padding: 60px 0;
 }
 
-/* ------------------------------
-   NAVBAR (Improved)
---------------------------------*/
+/* ---------- CLEANER NAVBAR HEIGHT ---------- */
 .navbar {
   background: var(--secondary);
-  padding: 10px 0; /* thinner height */
+  padding: 8px 0; /* reduce overall header height */
   position: sticky;
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid #1f1f1f;
 }
 
+.logo img {
+  height: 45px; /* smaller logo size to fit thinner header */
+  object-fit: contain;
+}
+
 .nav-flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap; /* ensures button drops below if needed on smaller screens */
-  gap: 10px; /* small gap between elements */
-}
-
-.logo img {
-  height: 45px; /* smaller logo height for thinner header */
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .nav-links {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  flex: 1; /* allows space adjustment */
-}
-
-.nav-links a {
-  color: var(--text);
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: 0.3s;
-}
-
-.nav-links a:hover {
-  color: var(--gold);
+  gap: 25px;
 }
 
 .navbar .btn.gold {
-  flex-shrink: 0;
   padding: 10px 22px;
-  font-size: 0.9rem;
   border-radius: 20px;
+  font-size: 0.9rem;
   white-space: nowrap;
-  margin-left: auto;
 }
 
 @media (max-width: 768px) {
@@ -439,4 +422,5 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
