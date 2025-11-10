@@ -875,12 +875,12 @@ footer {
   color: var(--gold); /* gold hover for contrast */
 }
 
-/* --- SOCIAL ICONS --- */
+/* --- SOCIAL ICONS (Fixed Alignment) --- */
 .footer-social {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px; /* enough space to prevent overlap */
+  gap: 45px; /* ✅ increased space slightly for perfect symmetry */
   margin: 15px 0 5px;
 }
 
@@ -888,23 +888,23 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 42px;   /* ✅ uniform width box for each icon */
+  height: 42px;  /* ensures consistent click area */
 }
 
 .footer-social a img {
   width: 32px;
   height: 32px;
+  min-width: 32px; /* ✅ prevents Telegram from shrinking */
+  object-fit: contain;
   filter: brightness(0) invert(1);
   transition: all 0.3s ease;
-  object-fit: contain;
 }
 
 .footer-social a img:hover {
   filter: invert(69%) sepia(90%) saturate(466%) hue-rotate(17deg) brightness(98%) contrast(92%);
   transform: scale(1.15);
 }
-
 /* --- COPYRIGHT --- */
 .footer-copy {
   color: #ccc;
@@ -929,9 +929,11 @@ footer {
     font-size: 1rem;
   }
 
+
   .footer-social {
-    gap: 30px;
+    gap: 35px; /* reduce slightly for tablet */
   }
+
 
   .footer-social a img {
     width: 28px;
@@ -954,9 +956,12 @@ footer {
   }
 
   .footer-social {
-    gap: 26px;
+    gap: 28px;
   }
-
+  .footer-social a {
+    width: 36px;
+    height: 36px;
+  }
   .footer-social a img {
     width: 26px;
   }
@@ -964,6 +969,8 @@ footer {
   .footer-copy {
     font-size: 0.9rem;
     font-weight: 500;
+     width: 26px;
+    min-width: 26px;
   }
 }
 
@@ -988,6 +995,7 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
 
 
