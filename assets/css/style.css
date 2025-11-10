@@ -124,6 +124,7 @@ a:hover {
 @media (max-width: 768px) {
   .navbar {
     padding: 12px 0; /* slightly smaller but still comfy */
+     position: relative;  /* turns off sticky on mobile */
   }
 
   .logo img {
@@ -633,6 +634,7 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
 
 
