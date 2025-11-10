@@ -716,7 +716,7 @@ a:hover {
 }
 
 /* ------------------------------
-   FAQ SECTION (Dark Theme)
+   FAQ SECTION (Dark Theme - Gold Heading)
 --------------------------------*/
 .faq {
   background: #0a0a0a;
@@ -731,7 +731,7 @@ a:hover {
 
 .faq .section-title {
   text-align: center;
-  color: #1a4d8f; /* same blue as “Meet Deepak” */
+  color: var(--gold); /* changed from blue to gold */
   font-size: 2.8rem;
   margin-bottom: 60px;
   letter-spacing: 0.5px;
@@ -898,6 +898,7 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
 
 
