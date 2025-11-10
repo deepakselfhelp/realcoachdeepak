@@ -140,7 +140,7 @@ a:hover {
   }
 }
 /* ------------------------------
-   HERO SECTION (Balanced and Bold – Larger Image)
+   HERO SECTION – FIXED SPLIT LAYOUT
 --------------------------------*/
 .hero {
   background: var(--secondary);
@@ -151,16 +151,15 @@ a:hover {
 
 .hero-container {
   display: flex;
-  align-items: center;
+  align-items: center;           /* vertically centers text & image */
   justify-content: space-between;
-  flex-wrap: wrap;
   max-width: 1300px;
   width: 100%;
   gap: 60px;
 }
 
 .hero-text {
-  flex: 1 1 50%;
+  flex: 0 0 52%;                 /* fix width for text column */
   color: var(--text);
 }
 
@@ -172,7 +171,7 @@ a:hover {
 
 .hero-text p {
   color: var(--gray);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   margin-bottom: 35px;
 }
 
@@ -181,7 +180,6 @@ a:hover {
   padding: 18px 36px;
   font-size: 1.1rem;
   border-radius: 40px;
-  text-align: center;
   background-color: var(--gold);
   color: #000;
   font-weight: 600;
@@ -194,30 +192,41 @@ a:hover {
 }
 
 .hero-img {
-  flex: 1 1 50%; /* was 40%, now 50% */
+  flex: 0 0 45%;                 /* fix width for image column */
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;     /* image aligns to right */
 }
 
 .hero-img img {
   width: 100%;
-  max-width: 560px; /* was 450px → +25% */
+  max-width: 560px;              /* image size you liked */
   border-radius: 12px;
   object-fit: cover;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
-@media (max-width: 768px) {
+
+@media (max-width: 900px) {
   .hero-container {
-    flex-direction: column-reverse; /* image below text */
+    flex-direction: column-reverse;
     text-align: center;
+    gap: 40px;
+  }
+
+  .hero-text, .hero-img {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .hero-text h1 {
+    font-size: 2.1rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
   }
 
   .hero-img img {
     max-width: 400px;
-  }
-
-  .hero-text h1 {
-    font-size: 1.8rem;
   }
 }
 
@@ -489,6 +498,7 @@ footer {
     padding: 12px 26px;
   }
 }
+
 
 
 
