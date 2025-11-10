@@ -1,5 +1,6 @@
-// ✅ /api/mollie/webhook.js — Final Stable Version (Extended with Open/Expired/Fail Fix)
+// ✅ /api/mollie/webhook.js — Node 22 Compatible Version
 const processedPayments = new Set();
+
 // Auto-clear cache every 60 s
 setInterval(() => processedPayments.clear(), 60000);
 
@@ -9,10 +10,15 @@ export default async function handler(req, res) {
     const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-    const body = req.body;
+    // Vercel (Node 22) sometimes doesn’t parse JSON automatically
+    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
     const paymentId = body.id || body.paymentId;
 
     // 🧠 Duplicate protection
+    if (!paymentId) {
+      console.error("❌ Missing payment ID");
+      return res.status(400).send("Missing payment ID");
+    }
     if (processedPayments.has(paymentId)) {
       console.log(`⚠️ Duplicate webhook ignored for ${paymentId}`);
       return res.status(200).send("Duplicate ignored");
@@ -33,36 +39,14 @@ export default async function handler(req, res) {
       headers: { Authorization: `Bearer ${MOLLIE_KEY}` },
     });
     const payment = await paymentRes.json();
-    // add this block ⬇️
+
     const failReason =
-    payment.details?.failureReason ||
-    payment.failureReason ||
-    payment.statusReason ||
-    null;
+      payment.details?.failureReason ||
+      payment.failureReason ||
+      payment.statusReason ||
+      null;
 
-  if (failReason && (payment.status === "open" || payment.status === "failed")) {
-  await sendTelegram(
-    `⚠️ *PAYMENT FAILED (EARLY DETECTED)*\n━━━━━━━━━━━━━━━\n🕒 *Time:* ${timeCET} (CET)\n🏦 *Source:* Mollie\n📧 *Email:* ${email}\n👤 *Name:* ${name}\n📦 *Plan:* ${planType}\n💬 *Reason:* ${failReason}\n💵 *Amount:* ${currency} ${amount}\n🆔 *Payment ID:* ${payment.id}`
-  );
-}
-
-    if (!payment || !payment.id) {
-      console.error("❌ Invalid payment payload:", payment);
-      return res.status(400).send("Bad request");
-    }
-
-    const email = payment.metadata?.email || payment.customerEmail || "N/A";
-    const name = payment.metadata?.name || "Unknown";
-    const amount = payment.amount?.value || "0.00";
-    const currency = payment.amount?.currency || "EUR";
-    const customerId = payment.customerId;
-    const sequence = payment.sequenceType || "unknown";
-    const status = payment.status;
-    const planType = payment.metadata?.planType || "DID Main Subscription";
-    const recurringAmount = payment.metadata?.recurringAmount || "0.00";
-    const isRecurring = parseFloat(recurringAmount) > 0;
-
-    // 📨 Telegram helper
+    // Telegram helper (use global fetch built into Node 22)
     async function sendTelegram(text) {
       if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
       try {
@@ -80,6 +64,29 @@ export default async function handler(req, res) {
       }
     }
 
+    const email = payment.metadata?.email || payment.customerEmail || "N/A";
+    const name = payment.metadata?.name || "Unknown";
+    const amount = payment.amount?.value || "0.00";
+    const currency = payment.amount?.currency || "EUR";
+    const customerId = payment.customerId;
+    const sequence = payment.sequenceType || "unknown";
+    const status = payment.status;
+    const planType = payment.metadata?.planType || "DID Main Subscription";
+    const recurringAmount = payment.metadata?.recurringAmount || "0.00";
+    const isRecurring = parseFloat(recurringAmount) > 0;
+
+    // ⚠️ Early fail detection
+    if (failReason && (status === "open" || status === "failed")) {
+      await sendTelegram(
+        `⚠️ *PAYMENT FAILED (EARLY DETECTED)*\n━━━━━━━━━━━━━━━\n🕒 *Time:* ${timeCET} (CET)\n🏦 *Source:* Mollie\n📧 *Email:* ${email}\n👤 *Name:* ${name}\n📦 *Plan:* ${planType}\n💬 *Reason:* ${failReason}\n💵 *Amount:* ${currency} ${amount}\n🆔 *Payment ID:* ${payment.id}`
+      );
+    }
+
+    if (!payment || !payment.id) {
+      console.error("❌ Invalid payment payload:", payment);
+      return res.status(400).send("Bad request");
+    }
+
     // 💰 1️⃣ Initial Payment Success
     if (status === "paid" && sequence === "first") {
       await sendTelegram(
@@ -88,7 +95,7 @@ export default async function handler(req, res) {
 
       if (!isRecurring) return res.status(200).send("OK");
 
-      await new Promise(r => setTimeout(r, 8000));
+      await new Promise((r) => setTimeout(r, 8000));
 
       const subRes = await fetch(
         `https://api.mollie.com/v2/customers/${customerId}/subscriptions`,
@@ -133,7 +140,7 @@ export default async function handler(req, res) {
       );
     }
 
-    // ❌ 4️⃣ Initial Payment Failed  (handles missing sequenceType)
+    // ❌ 4️⃣ Initial Payment Failed
     else if (status === "failed" && sequence !== "recurring") {
       const failType =
         sequence === "first" ? "INITIAL PAYMENT FAILED" : "PAYMENT FAILED (UNSPECIFIED)";
@@ -142,14 +149,14 @@ export default async function handler(req, res) {
       );
     }
 
-    // 🕓 5️⃣ Payment Open (new)
+    // 🕓 5️⃣ Payment Open
     else if (status === "open") {
       await sendTelegram(
         `🕓 *PAYMENT PENDING / OPEN*\n━━━━━━━━━━━━━━━\n🕒 *Time:* ${timeCET} (CET)\n📧 *Email:* ${email}\n📦 *Plan:* ${planType}\n💵 *Amount:* ${currency} ${amount}\n💬 *Status:* Awaiting user completion`
       );
     }
 
-    // ⌛ 6️⃣ Payment Expired (new)
+    // ⌛ 6️⃣ Payment Expired
     else if (status === "expired") {
       await sendTelegram(
         `⌛ *PAYMENT EXPIRED*\n━━━━━━━━━━━━━━━\n🕒 *Time:* ${timeCET} (CET)\n📧 *Email:* ${email}\n📦 *Plan:* ${planType}\n💵 *Amount:* ${currency} ${amount}\n💬 *Status:* User didn’t complete checkout`
