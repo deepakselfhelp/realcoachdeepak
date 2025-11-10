@@ -51,11 +51,11 @@ a:hover {
 }
 
 /* ------------------------------
-   NAVBAR
+   NAVBAR (Improved)
 --------------------------------*/
 .navbar {
   background: var(--secondary);
-  padding: 20px 0;
+  padding: 10px 0; /* thinner height */
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -66,20 +66,53 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap; /* ensures button drops below if needed on smaller screens */
+  gap: 10px; /* small gap between elements */
+}
+
+.logo img {
+  height: 45px; /* smaller logo height for thinner header */
 }
 
 .nav-links {
   display: flex;
-  gap: 25px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex: 1; /* allows space adjustment */
 }
 
 .nav-links a {
   color: var(--text);
   font-weight: 500;
+  font-size: 0.95rem;
+  transition: 0.3s;
 }
 
 .nav-links a:hover {
   color: var(--gold);
+}
+
+.navbar .btn.gold {
+  flex-shrink: 0;
+  padding: 10px 22px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+@media (max-width: 768px) {
+  .nav-flex {
+    flex-direction: column;
+  }
+  .nav-links {
+    margin: 10px 0;
+  }
+  .navbar .btn.gold {
+    margin-top: 5px;
+  }
 }
 
 /* ------------------------------
@@ -406,3 +439,4 @@ footer {
     padding: 12px 26px;
   }
 }
+
